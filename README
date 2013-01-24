@@ -1,0 +1,3 @@
+Fedora tries its luck with Lily.
+
+You must have a running Lily repository to run this. It should be available at Zookeeper address "localhost:2181".
