@@ -6,12 +6,13 @@
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Fedora Lily Prototype</name>
-	
+
 	<properties>
 		<lily.version>2.0</lily.version>
+		<org.springframework.version>3.2.1.RELEASE</org.springframework.version>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -34,6 +35,12 @@
 			<artifactId>lily-client</artifactId>
 			<version>${lily.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
@@ -68,7 +75,7 @@
 									<type>jar</type>
 								</artifactItem>
 							</artifactItems>
-						</configuration> 
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -112,7 +119,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<repositories>
 		<repository>
 			<id>Lily Artifacts</id>

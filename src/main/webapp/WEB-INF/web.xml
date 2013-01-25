@@ -3,69 +3,27 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Fedora on Lily</display-name>
+  <display-name>Fedora-on-Lily</display-name>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>WEB-INF/rest.xml</param-value>
+  </context-param>
+  
+  <listener>
+    <listener-class>
+      org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+  </listener>
+  
   <servlet>
     <servlet-name>CXFServlet</servlet-name>
     <display-name>CXF Servlet</display-name>
     <servlet-class>
-      org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet
+      org.apache.cxf.transport.servlet.CXFServlet
     </servlet-class>
-    <init-param>
-      <param-name>jaxrs.serviceClasses</param-name>
-      <param-value>
-        org.fcrepo.lily.FedoraRepository	      
-      </param-value>
-    </init-param>
-   <!--
-    <init-param>
-      <param-name>jaxrs.providers</param-name>
-      <param-value>
-        org.apache.cxf.systest.jaxrs.BookStoreProvider1
-        org.apache.cxf.systest.jaxrs.BookStoreProvider2		      
-      </param-value>
-    </init-param>
- 
-    <init-param>
-      <param-name>jaxrs.schemaLocations</param-name>
-      <param-value>
-        classpath:/WEB-INF/schemas/schema1.xsd
-        classpath:/WEB-INF/schemas/schema2.xsd		      
-      </param-value>
-    </init-param> 
-   
-    <init-param>
-      <param-name>jaxrs.inInterceptors</param-name>
-      <param-value>
-        org.apache.cxf.systest.jaxrs.CustomInInterceptor
-      </param-value>
-    </init-param> 
- 
-    <init-param>
-      <param-name>jaxrs.outInterceptors</param-name>
-      <param-value>
-        org.apache.cxf.systest.jaxrs.CustomOutInterceptor
-      </param-value>
-    </init-param>
-   
-    <init-param>
-      <param-name>jaxrs.extensions</param-name>
-      <param-value>
-        xml=application/xml
-        json=application/json
-      </param-value>
-    </init-param>
-    
-    <init-param>
-      <param-name>jaxrs.properties</param-name>
-      <param-value>
-        property1=value
-        property2=value
-      </param-value>
-    </init-param>
-    -->
     <load-on-startup>1</load-on-startup>
   </servlet>
-
+  
   <servlet-mapping>
     <servlet-name>CXFServlet</servlet-name>
     <url-pattern>/*</url-pattern>
