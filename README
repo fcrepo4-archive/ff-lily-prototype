@@ -2,7 +2,6 @@ Fedora tries its luck with Lily.
 
 You must have a running Lily repository to run this. Lily is not embedded!
 
-It should be available at Zookeeper address "localhost:2181", or you can change the config in
-WEB-INF/rest.xml.
+It should be available at Zookeeper address "localhost:2181", or you can change the config in WEB-INF/rest.xml.
 
 The only methods currently implemented are POST/GET for /objects and GET for /fedora/describe.
