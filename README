@@ -2,7 +2,17 @@ Fedora tries its luck with Lily.
 
 You must have a running Lily repository to run this. Lily is not embedded!
 
-It should be available at Zookeeper address "localhost:2181", or you can change the config in
-WEB-INF/rest.xml.
+It should be available at Zookeeper address "localhost:2181", or you can change the Spring config in WEB-INF/rest.xml.
 
 The only methods currently implemented are POST/GET for /objects and GET for /fedora/describe.
+
+To add a new JAXRS resource, create it as a subclass of AbstractResource, then add it to Spring config with a constructor-arg of the LilyClient bean, like:
+
+<jaxrs:serviceBeans>
+            <bean id="fedoraRepository" class="org.fcrepo.lily.FedoraRepository">
+                <property name="client" ref="lilyClient"/>
+            </bean>
+            ...
+</jaxrs:serviceBeans>
+
+That's dumb. It's too much work. We should make the LilyClient a service of some kind. OSGi?
