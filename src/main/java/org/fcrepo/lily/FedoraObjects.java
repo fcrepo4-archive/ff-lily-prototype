@@ -10,8 +10,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.lilyproject.repository.api.IdGenerator;
-import org.lilyproject.repository.api.QName;
 import org.lilyproject.repository.api.Record;
 import org.lilyproject.repository.api.RecordId;
 import org.lilyproject.repository.api.Repository;
@@ -22,20 +20,16 @@ import org.lilyproject.repository.impl.id.UserRecordIdFactory;
 @Path("/objects")
 public class FedoraObjects extends AbstractResource {
 
-	IdGeneratorImpl idGenerator = (IdGeneratorImpl) client.getRepository()
-			.getIdGenerator();
-	UserRecordIdFactory userRecordIdFactory = new UserRecordIdFactory();
-
 	Repository repo = getRepo();
+	IdGeneratorImpl idGenerator = (IdGeneratorImpl) repo.getIdGenerator();
+	UserRecordIdFactory userRecordIdFactory = new UserRecordIdFactory();
 
 	@Path("/{pid}")
 	@GET
 	public Response getObject(@PathParam("pid") final String pid)
 			throws RepositoryException, InterruptedException {
 		RecordId pidRecId = userRecordIdFactory.fromString(pid, idGenerator);
-
 		Record rec = repo.read(pidRecId, label);
-
 		return Response.ok((String) rec.getField(label)).build();
 	}
 
@@ -45,9 +39,8 @@ public class FedoraObjects extends AbstractResource {
 			@QueryParam("label") @DefaultValue("test") final String objLabel)
 			throws RepositoryException, InterruptedException {
 
-		repo.recordBuilder().recordType(fedora).id(pid).field(label, objLabel)
+		repo.recordBuilder().recordType(fedoraRecordTypeName).id(pid).field(label, objLabel)
 				.createOrUpdate();
-
 		return Response.created(URI.create(pid)).build();
 	}
 }

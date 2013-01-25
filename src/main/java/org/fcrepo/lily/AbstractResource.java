@@ -15,9 +15,10 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractResource {
 
-	static final String FNS = "fedora";
-	static final QName fedora = new QName(FNS, "fedora");
-	static final QName label = new QName(FNS, "label");
+	static final String fedoraNamespace = "fedora";
+	static final QName fedoraRecordTypeName = new QName(fedoraNamespace,
+			"fedora");
+	static final QName label = new QName(fedoraNamespace, "label");
 
 	static public Repository repo = null;
 	static public LilyClient client = null;
@@ -29,7 +30,7 @@ public abstract class AbstractResource {
 	}
 
 	AbstractResource(LilyClient cl) {
-		this.client = cl;
+		client = cl;
 	}
 
 	@PostConstruct
@@ -38,17 +39,17 @@ public abstract class AbstractResource {
 		logger.debug("Trying to retrieve Fedora RecordType");
 		TypeManager tm = getRepo().getTypeManager();
 		try {
-			tm.getRecordTypeByName(fedora, 1L);
+			tm.getRecordTypeByName(fedoraRecordTypeName, 1L);
+			logger.debug("Retrieved Fedora RecordType");
 		} catch (RecordTypeNotFoundException e) {
 			logger.debug("Creating Fedora RecordType");
-			RecordType fedoraRecordType = tm.recordTypeBuilder().name(fedora)
-					.fieldEntry().defineField().name(label)
-					.type(new StringValueType()).createOrUpdate().add()
-					.createOrUpdate();
+			RecordType fedoraRecordType = tm.recordTypeBuilder()
+					.name(fedoraRecordTypeName).fieldEntry().defineField()
+					.name(label).type(new StringValueType()).createOrUpdate()
+					.add().createOrUpdate();
 			tm.createOrUpdateRecordType(fedoraRecordType);
+			logger.debug("Created Fedora RecordType");
 		}
-		logger.debug("Created Fedora RecordType");
-
 	}
 
 	public static Repository getRepo() {
@@ -64,8 +65,8 @@ public abstract class AbstractResource {
 		return client;
 	}
 
-	public static void setClient(LilyClient client) {
-		AbstractResource.client = client;
+	public static void setClient(LilyClient cl) {
+		client = cl;
 	}
 
 }
