@@ -1,6 +1,9 @@
 package org.fcrepo.lily;
 
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.lilyproject.client.LilyClient;
 import org.lilyproject.repository.api.QName;
@@ -12,6 +15,7 @@ import org.lilyproject.repository.api.TypeManager;
 import org.lilyproject.repository.impl.valuetype.StringValueType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+//import org.lilyproject.tools.import_.cli.JsonImport;
 
 public abstract class AbstractResource {
 
@@ -21,7 +25,11 @@ public abstract class AbstractResource {
 	static final QName label = new QName(fedoraNamespace, "label");
 
 	static public Repository repo = null;
-	static public LilyClient client = null;
+	
+	@Resource
+	public LilyClient lilyClient = null;
+	
+	static public org.springframework.core.io.Resource schemaResource;
 
 	final static private Logger logger = LoggerFactory
 			.getLogger(AbstractResource.class);
@@ -30,12 +38,12 @@ public abstract class AbstractResource {
 	}
 
 	AbstractResource(LilyClient cl) {
-		client = cl;
+		lilyClient = cl;
 	}
 
 	@PostConstruct
-	void initFedoraRecordType() throws RepositoryException,
-			InterruptedException {
+	void initFedoraRecordType() throws IOException, Exception {
+		//JsonImport.load(getRepo(), schemaResource.getInputStream(), true);
 		logger.debug("Trying to retrieve Fedora RecordType");
 		TypeManager tm = getRepo().getTypeManager();
 		try {
@@ -46,27 +54,27 @@ public abstract class AbstractResource {
 			RecordType fedoraRecordType = tm.recordTypeBuilder()
 					.name(fedoraRecordTypeName).fieldEntry().defineField()
 					.name(label).type(new StringValueType()).createOrUpdate()
-					.add().createOrUpdate();
+					.add().build();
 			tm.createOrUpdateRecordType(fedoraRecordType);
 			logger.debug("Created Fedora RecordType");
 		}
 	}
 
-	public static Repository getRepo() {
+	public Repository getRepo() {
 		if (repo != null)
 			return repo;
 		else {
-			repo = client.getRepository();
+			repo = lilyClient.getRepository();
 			return repo;
 		}
 	}
 
-	public static LilyClient getClient() {
-		return client;
+	public LilyClient getClient() {
+		return lilyClient;
 	}
 
-	public static void setClient(LilyClient cl) {
-		client = cl;
+	public void setClient(LilyClient cl) {
+		lilyClient = cl;
 	}
 
 }

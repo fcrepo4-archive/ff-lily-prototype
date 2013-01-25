@@ -15,12 +15,8 @@
 
     <jaxrs:server address="/">
         <jaxrs:serviceBeans>
-            <bean id="fedoraRepository" class="org.fcrepo.lily.FedoraRepository">
-                <property name="client" ref="lilyClient"/>
-            </bean>
-            <bean id="fedoraObjects" class="org.fcrepo.lily.FedoraObjects">
-                <property name="client" ref="lilyClient"/>
-            </bean>
+            <bean id="fedoraRepository" class="org.fcrepo.lily.FedoraRepository"/>
+            <bean id="fedoraObjects" class="org.fcrepo.lily.FedoraObjects"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
