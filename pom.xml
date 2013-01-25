@@ -27,11 +27,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.lilyproject</groupId>
-			<artifactId>lily-repository-api</artifactId>
-			<version>${lily.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.lilyproject</groupId>
 			<artifactId>lily-client</artifactId>
 			<version>${lily.version}</version>
 		</dependency>
