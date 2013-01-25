@@ -39,7 +39,7 @@ public class FedoraObjects extends AbstractResource {
 			@QueryParam("label") @DefaultValue("test") final String objLabel)
 			throws RepositoryException, InterruptedException {
 
-		repo.recordBuilder().recordType(fedoraRecordTypeName).id(pid).field(label, objLabel)
+		repo.recordBuilder().recordType(fedoraObjectRecordTypeName).id(pid).field(label, objLabel)
 				.createOrUpdate();
 		return Response.created(URI.create(pid)).build();
 	}

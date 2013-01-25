@@ -31,6 +31,11 @@
 			<version>${lily.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.lilyproject</groupId>
+			<artifactId>lily-import</artifactId>
+			<version>${lily.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${org.springframework.version}</version>

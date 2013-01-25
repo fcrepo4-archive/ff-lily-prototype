@@ -7,29 +7,25 @@ import javax.annotation.Resource;
 
 import org.lilyproject.client.LilyClient;
 import org.lilyproject.repository.api.QName;
-import org.lilyproject.repository.api.RecordType;
-import org.lilyproject.repository.api.RecordTypeNotFoundException;
 import org.lilyproject.repository.api.Repository;
-import org.lilyproject.repository.api.RepositoryException;
-import org.lilyproject.repository.api.TypeManager;
-import org.lilyproject.repository.impl.valuetype.StringValueType;
+import org.lilyproject.tools.import_.cli.JsonImport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.lilyproject.tools.import_.cli.JsonImport;
 
 public abstract class AbstractResource {
 
 	static final String fedoraNamespace = "fedora";
-	static final QName fedoraRecordTypeName = new QName(fedoraNamespace,
-			"fedora");
+	static final QName fedoraObjectRecordTypeName = new QName(fedoraNamespace,
+			"object");
 	static final QName label = new QName(fedoraNamespace, "label");
 
 	static public Repository repo = null;
-	
+
 	@Resource
 	public LilyClient lilyClient = null;
-	
-	static public org.springframework.core.io.Resource schemaResource;
+
+	@Resource(name = "fedoraSchema")
+	public org.springframework.core.io.Resource schemaResource;
 
 	final static private Logger logger = LoggerFactory
 			.getLogger(AbstractResource.class);
@@ -42,22 +38,9 @@ public abstract class AbstractResource {
 	}
 
 	@PostConstruct
-	void initFedoraRecordType() throws IOException, Exception {
-		//JsonImport.load(getRepo(), schemaResource.getInputStream(), true);
-		logger.debug("Trying to retrieve Fedora RecordType");
-		TypeManager tm = getRepo().getTypeManager();
-		try {
-			tm.getRecordTypeByName(fedoraRecordTypeName, 1L);
-			logger.debug("Retrieved Fedora RecordType");
-		} catch (RecordTypeNotFoundException e) {
-			logger.debug("Creating Fedora RecordType");
-			RecordType fedoraRecordType = tm.recordTypeBuilder()
-					.name(fedoraRecordTypeName).fieldEntry().defineField()
-					.name(label).type(new StringValueType()).createOrUpdate()
-					.add().build();
-			tm.createOrUpdateRecordType(fedoraRecordType);
-			logger.debug("Created Fedora RecordType");
-		}
+	void loadSchema() throws IOException, Exception {
+		logger.debug("Loading Fedora schema");
+		JsonImport.load(getRepo(), schemaResource.getInputStream(), true);
 	}
 
 	public Repository getRepo() {
@@ -75,6 +58,15 @@ public abstract class AbstractResource {
 
 	public void setClient(LilyClient cl) {
 		lilyClient = cl;
+	}
+
+	public org.springframework.core.io.Resource getSchemaResource() {
+		return schemaResource;
+	}
+
+	public void setSchemaResource(
+			org.springframework.core.io.Resource schemaResource) {
+		this.schemaResource = schemaResource;
 	}
 
 }
