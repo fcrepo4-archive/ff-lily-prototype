@@ -10,9 +10,15 @@
 
     <jaxrs:server address="/">
         <jaxrs:serviceBeans>
-            <bean id="serviceBean" class="org.fcrepo.lily.FedoraRepository"/>
+            <bean id="serviceBean" class="org.fcrepo.lily.FedoraRepository">
+                <property name="client" ref="lilyClient"/>
+            </bean>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
+    <bean id="lilyClient" class="org.lilyproject.client.LilyClient">
+        <constructor-arg value="localhost:2181"/>
+        <constructor-arg value="1000"/>
+    </bean>
 
 </beans>

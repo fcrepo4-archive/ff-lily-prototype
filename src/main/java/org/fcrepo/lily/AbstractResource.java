@@ -12,11 +12,30 @@ import org.lilyproject.util.zookeeper.ZkConnectException;
 public abstract class AbstractResource {
 
 	static public Repository repo = null;
+	static public LilyClient client = null;
 
-	AbstractResource() throws IOException, InterruptedException, KeeperException, ZkConnectException, NoServersException, RepositoryException {
-		if (repo == null) {
-			final LilyClient client = new LilyClient("localhost:2181", 1000);
+	AbstractResource() {
+	}
+
+	AbstractResource(LilyClient cl) {
+		this.client = cl;
+	}
+
+	public static Repository getRepo() {
+		if (repo != null)
+			return repo;
+		else {
 			repo = client.getRepository();
+			return repo;
 		}
 	}
+
+	public static LilyClient getClient() {
+		return client;
+	}
+
+	public static void setClient(LilyClient client) {
+		AbstractResource.client = client;
+	}
+
 }

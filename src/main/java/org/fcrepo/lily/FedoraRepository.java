@@ -23,6 +23,6 @@ public class FedoraRepository extends AbstractResource {
 	@Path("/describe")
 	@GET
 	public Response getDescription() {
-		return Response.ok().entity(repo.hashCode()).build();
+		return Response.ok().entity(getRepo().hashCode()).build();
 	}
 }
