@@ -1,6 +1,8 @@
 package org.fcrepo.lily;
 
 import java.io.IOException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -19,8 +21,8 @@ public abstract class AbstractResource {
 	static final String fedoraNamespace = "fedora";
 	static final QName fedoraObjectRecordTypeName = new QName(fedoraNamespace,
 			"object");
-	static final QName fedoraDatastreamRecordTypeName = new QName(fedoraNamespace,
-			"datastream");
+	static final QName fedoraDatastreamRecordTypeName = new QName(
+			fedoraNamespace, "datastream");
 	static final QName label = new QName(fedoraNamespace, "label");
 	static final QName datastreams = new QName(fedoraNamespace, "datastreams");
 	static final QName datastreamId = new QName(fedoraNamespace, "datastreamId");
@@ -35,6 +37,8 @@ public abstract class AbstractResource {
 	@Resource(name = "fedoraSchema")
 	public org.springframework.core.io.Resource schemaResource;
 
+	static protected final ObjectMapper mapper = new ObjectMapper();
+
 	final static private Logger logger = LoggerFactory
 			.getLogger(AbstractResource.class);
 
@@ -46,12 +50,17 @@ public abstract class AbstractResource {
 	}
 
 	@PostConstruct
-	void loadSchema() throws IOException, Exception {
+	void initialize() throws IOException, Exception {
 		logger.debug("Loading Fedora schema");
 		JsonImport.load(getRepo(), schemaResource.getInputStream(), true);
+		
 		repo = getRepo();
+		
 		idGenerator = (IdGeneratorImpl) repo.getIdGenerator();
 		userRecordIdFactory = new UserRecordIdFactory();
+		
+		mapper.configure(SerializationConfig.Feature.AUTO_DETECT_IS_GETTERS,
+				false);
 
 	}
 
