@@ -15,21 +15,21 @@
 
     <jaxrs:server address="/">
         <jaxrs:serviceBeans>
-            <bean id="fedoraRepository" class="org.fcrepo.lily.FedoraRepository"/>
-            <bean id="fedoraObjects" class="org.fcrepo.lily.FedoraObjects"/>
+            <bean class="org.fcrepo.lily.FedoraRepository"/>
+            <bean class="org.fcrepo.lily.FedoraObjects"/>
+            <bean class="org.fcrepo.lily.FedoraDatastreams"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
-    <bean id="lilyClient" class="org.lilyproject.client.LilyClient">
+    <bean id="lilyClient" class="org.lilyproject.client.LilyClient" destroy-method="close">
         <!-- Zookeeper connection string -->
         <constructor-arg value="localhost:2181"/>
         <!-- timeout -->
         <constructor-arg value="20000"/>
     </bean>
-    
+
     <bean name="fedoraSchema" class="org.springframework.core.io.ClassPathResource">
-        <constructor-arg type="String"
-            value="org/fcrepo/lily/fedoraSchema.json"/>
+        <constructor-arg type="String" value="org/fcrepo/lily/fedoraSchema.json"/>
     </bean>
 
 </beans>

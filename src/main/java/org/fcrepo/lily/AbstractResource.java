@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 import org.lilyproject.client.LilyClient;
 import org.lilyproject.repository.api.QName;
 import org.lilyproject.repository.api.Repository;
+import org.lilyproject.repository.impl.id.IdGeneratorImpl;
+import org.lilyproject.repository.impl.id.UserRecordIdFactory;
 import org.lilyproject.tools.import_.cli.JsonImport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +19,15 @@ public abstract class AbstractResource {
 	static final String fedoraNamespace = "fedora";
 	static final QName fedoraObjectRecordTypeName = new QName(fedoraNamespace,
 			"object");
+	static final QName fedoraDatastreamRecordTypeName = new QName(fedoraNamespace,
+			"datastream");
 	static final QName label = new QName(fedoraNamespace, "label");
+	static final QName datastreams = new QName(fedoraNamespace, "datastreams");
+	static final QName datastreamId = new QName(fedoraNamespace, "datastreamId");
 
-	static public Repository repo = null;
+	static public Repository repo;
+	static public IdGeneratorImpl idGenerator;
+	UserRecordIdFactory userRecordIdFactory;
 
 	@Resource
 	public LilyClient lilyClient = null;
@@ -41,6 +49,10 @@ public abstract class AbstractResource {
 	void loadSchema() throws IOException, Exception {
 		logger.debug("Loading Fedora schema");
 		JsonImport.load(getRepo(), schemaResource.getInputStream(), true);
+		repo = getRepo();
+		idGenerator = (IdGeneratorImpl) repo.getIdGenerator();
+		userRecordIdFactory = new UserRecordIdFactory();
+
 	}
 
 	public Repository getRepo() {

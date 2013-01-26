@@ -1,6 +1,7 @@
 package org.fcrepo.lily;
 
 import java.net.URI;
+import java.util.ArrayList;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -10,19 +11,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.lilyproject.repository.api.Link;
 import org.lilyproject.repository.api.Record;
 import org.lilyproject.repository.api.RecordId;
 import org.lilyproject.repository.api.Repository;
 import org.lilyproject.repository.api.RepositoryException;
-import org.lilyproject.repository.impl.id.IdGeneratorImpl;
-import org.lilyproject.repository.impl.id.UserRecordIdFactory;
 
 @Path("/objects")
 public class FedoraObjects extends AbstractResource {
 
 	Repository repo = getRepo();
-	IdGeneratorImpl idGenerator = (IdGeneratorImpl) repo.getIdGenerator();
-	UserRecordIdFactory userRecordIdFactory = new UserRecordIdFactory();
 
 	@Path("/{pid}")
 	@GET
@@ -39,8 +37,9 @@ public class FedoraObjects extends AbstractResource {
 			@QueryParam("label") @DefaultValue("test") final String objLabel)
 			throws RepositoryException, InterruptedException {
 
-		repo.recordBuilder().recordType(fedoraObjectRecordTypeName).id(pid).field(label, objLabel)
-				.createOrUpdate();
+		repo.recordBuilder().recordType(fedoraObjectRecordTypeName).id(pid)
+				.field(datastreams, new ArrayList<Link>())
+				.field(label, objLabel).createOrUpdate();
 		return Response.created(URI.create(pid)).build();
 	}
 }

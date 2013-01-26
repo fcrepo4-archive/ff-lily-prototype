@@ -1,21 +1,44 @@
 /* First sketch at modeling Fedora in Lily */
 
 {
-  namespaces: {
+  "namespaces": {
     "fedora": "fedora"
   },
-  fieldTypes: [
+  "fieldTypes": [
     {
-      name: "fedora$label",
-      valueType: "STRING",
-      scope: "non_versioned"
+      "name": "fedora$label",
+      "valueType": "STRING",
+      "scope": "non_versioned"
+    },
+    {
+      "name": "fedora$datastreams",
+      "valueType": "LIST<LINK>",
+      "scope": "non_versioned"
+    },
+    {
+      "name": "fedora$datastreamId",
+      "valueType": "STRING",
+      "scope": "non_versioned"
+    },
+    {
+      "name": "fedora$content",
+      "valueType": "BLOB",
+      "scope": "non_versioned"
     }
   ],
-  recordTypes: [
+  "recordTypes": [
     {
-      name: "fedora$object",
-      fields: [
-        {name: "fedora$label", mandatory: true }
+      "name": "fedora$object",
+      "fields": [
+        {"name": "fedora$label", "mandatory": true },
+        {"name": "fedora$datastreams"}
+      ]
+    },
+    {
+      "name": "fedora$datastream",
+      "fields": [
+        {"name": "fedora$datastreamId", "mandatory": true },
+        {"name": "fedora$content"}        
       ]
     }
   ]
