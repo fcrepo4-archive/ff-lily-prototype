@@ -35,6 +35,8 @@ public class FedoraDatastreams extends AbstractResource {
 
 	static final QName datastreamId = new QName(fedoraNamespace, "datastreamId");
 	static final QName datastreamContent = new QName(fedoraNamespace, "content");
+	static final QName fedoraDatastreamRecordTypeName = new QName(
+			fedoraNamespace, "datastream");
 
 	@Path("/")
 	@GET
@@ -84,7 +86,7 @@ public class FedoraDatastreams extends AbstractResource {
 		bufferedContent.mark(Integer.MAX_VALUE);
 		while (bufferedContent.read() != -1)
 			; // how lame _am_ I?!
-		Blob contentBlob = new Blob(mediaType, bufferedContent.getCount(), dsid);
+		Blob contentBlob = new Blob(mediaType, Long.MAX_VALUE, dsid);
 		bufferedContent.reset();
 		OutputStream out = repo.getOutputStream(contentBlob);
 		IOUtils.copy(bufferedContent, out);

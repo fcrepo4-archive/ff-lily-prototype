@@ -19,10 +19,6 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractResource {
 
 	static final String fedoraNamespace = "fedora";
-	static final QName fedoraObjectRecordTypeName = new QName(fedoraNamespace,
-			"object");
-	static final QName fedoraDatastreamRecordTypeName = new QName(
-			fedoraNamespace, "datastream");
 	static final QName label = new QName(fedoraNamespace, "label");
 	static final QName datastreams = new QName(fedoraNamespace, "datastreams");
 	

@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.lilyproject.repository.api.Link;
+import org.lilyproject.repository.api.QName;
 import org.lilyproject.repository.api.Record;
 import org.lilyproject.repository.api.RecordId;
 import org.lilyproject.repository.api.Repository;
@@ -23,6 +24,9 @@ import org.lilyproject.repository.api.RepositoryException;
 
 @Path("/objects")
 public class FedoraObjects extends AbstractResource {
+	
+	static final QName fedoraObjectRecordTypeName = new QName(fedoraNamespace,
+			"object");
 
 	Repository repo = getRepo();
 
