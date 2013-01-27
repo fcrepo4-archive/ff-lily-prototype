@@ -25,8 +25,7 @@ public abstract class AbstractResource {
 			fedoraNamespace, "datastream");
 	static final QName label = new QName(fedoraNamespace, "label");
 	static final QName datastreams = new QName(fedoraNamespace, "datastreams");
-	static final QName datastreamId = new QName(fedoraNamespace, "datastreamId");
-
+	
 	static public Repository repo;
 	static public IdGeneratorImpl idGenerator;
 	UserRecordIdFactory userRecordIdFactory;

@@ -47,6 +47,6 @@ public class FedoraObjects extends AbstractResource {
 		repo.recordBuilder().recordType(fedoraObjectRecordTypeName).id(pid)
 				.field(datastreams, new ArrayList<Link>())
 				.field(label, objLabel).createOrUpdate();
-		return Response.created(URI.create(pid)).build();
+		return Response.created(URI.create("objects/" + pid)).build();
 	}
 }
